@@ -22,10 +22,10 @@ php -S 127.0.0.1:8000 -t public
 
 Open http://127.0.0.1:8000 and:
 
-1. Click **Ship this order.** Order 1001 is a draft, so the agent has only `cancel_order`. It says shipping is not possible and makes no tool call.
+1. Click **Ship it.** Order 1001 is a draft, so the agent has only `cancel_order`. It says shipping is not possible and makes no tool call.
 2. Click **Payment provider: payment received.** The order moves to `paid`, and `ship_order` and `refund_order` appear.
-3. Click **Ship this order.** again. Now the agent ships it.
-4. Open order 1003 (900 EUR) and ask for a refund. A workflow guard allows agents to refund at most 500 EUR, so there is no refund tool.
+3. Click **Ship it** again. Now the agent ships it.
+4. Open order 1003 (900 EUR) and click **Refund it.** A workflow guard allows agents to refund at most 500 EUR, so the refund tool is shown as blocked and the agent cannot call it.
 
 No API key at hand? The MCP part below needs none.
 
