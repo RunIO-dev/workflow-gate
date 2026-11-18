@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+        "workflow-gate": {
+            "command": "php",
+            "args": ["bin/console", "mcp:server"]
+        }
+    }
+}

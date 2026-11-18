@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - lib
+        - src
+        - tests
+    excludePaths:
+        # Comes from the Symfony recipe.
+        - tests/bootstrap.php

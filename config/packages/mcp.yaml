@@ -1,0 +1,13 @@
+mcp:
+    servers:
+        default:
+            name: workflow-gate
+            instructions: Open an order first. The actions that are possible for it appear as tools and change with its state.
+            registry: 'App\Mcp\'
+            transports:
+                stdio: true
+                http: false
+            # Announces tool list changes to listening clients.
+            subscriptions:
+                bus: cache
+                lifetime: 0

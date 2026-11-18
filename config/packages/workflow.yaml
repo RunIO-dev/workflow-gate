@@ -1,0 +1,30 @@
+framework:
+    workflows:
+        order:
+            type: state_machine
+            supports: [App\Order\Order]
+            marking_store:
+                type: method
+                property: status
+            initial_marking: draft
+            places: [draft, paid, shipped, refunded, cancelled]
+            transitions:
+                pay:
+                    from: draft
+                    to: paid
+                    # No agent_tool: a payment comes from the payment provider, never from an agent.
+                cancel:
+                    from: draft
+                    to: cancelled
+                    metadata:
+                        agent_tool: Cancels the open order before it is paid. No money moves, because nothing was paid yet.
+                ship:
+                    from: paid
+                    to: shipped
+                    metadata:
+                        agent_tool: Hands the open order to the carrier. Only possible once it is paid.
+                refund:
+                    from: [paid, shipped]
+                    to: refunded
+                    metadata:
+                        agent_tool: Pays the money of the open order back to the customer. Only for orders that were paid.
