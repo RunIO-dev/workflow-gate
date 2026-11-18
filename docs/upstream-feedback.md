@@ -10,9 +10,13 @@ Found while building Workflow Gate on `symfony/ai-*` 1.0.0-BETA1, `symfony/mcp-b
 
 Workaround in this project: [`LiveToolsPlatform`](../lib/Agent/LiveToolsPlatform.php), a platform decorator that sets `$options['tools']` from the toolbox on every `invoke()`.
 
+Issue: [symfony/ai#2995](https://github.com/symfony/ai/issues/2995)
+
 ### PHP MCP SDK: one change notification per registry call
 
 `Registry::registerTool()` and `unregisterTool()` each dispatch a `ToolListChangedEvent`. Replacing `cancel_order` by `ship_order` and `refund_order` sends three `notifications/tools/list_changed` in a row. A way to group several registry changes into one announcement would help servers with dynamic tools.
+
+Issue: [modelcontextprotocol/php-sdk#751](https://github.com/modelcontextprotocol/php-sdk/issues/751)
 
 ## Already known upstream
 
