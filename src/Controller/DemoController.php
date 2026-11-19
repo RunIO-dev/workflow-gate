@@ -8,6 +8,8 @@ use App\Agent\OrderDesk;
 use App\Order\Order;
 use App\Order\OrderRepository;
 use App\Order\Payments;
+use Symfony\AI\Platform\Exception\AuthenticationException;
+use Symfony\AI\Platform\Exception\ExceptionInterface as PlatformException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +44,13 @@ final class DemoController extends AbstractController
     #[Route('/api/orders/{id}/ask', methods: 'POST')]
     public function ask(int $id, #[MapRequestPayload] AskRequest $request, OrderDesk $desk): JsonResponse
     {
-        $run = $desk->ask($this->order($id)->id, $request->message, $request->mode);
+        try {
+            $run = $desk->ask($this->order($id)->id, $request->message, $request->mode);
+        } catch (AuthenticationException) {
+            return $this->json(['detail' => 'The model refused the API key. Put a valid ANTHROPIC_API_KEY into .env.local. The order and its tools work without it.'], Response::HTTP_SERVICE_UNAVAILABLE);
+        } catch (PlatformException $exception) {
+            return $this->json(['detail' => 'The model call failed: '.$exception->getMessage()], Response::HTTP_BAD_GATEWAY);
+        }
 
         return $this->json(['answer' => $run['answer'], 'calls' => $run['calls']] + $this->describe($run['order']));
     }
